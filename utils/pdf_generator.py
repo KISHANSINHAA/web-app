@@ -245,4 +245,4 @@ def generate_company_report_pdf(data: dict, applicant_name: str = None, applican
         pdf.ln(5)
  
     # Returns the binary buffer bytes of the PDF output
-    return pdf.output()
+    return bytes(pdf.output())
