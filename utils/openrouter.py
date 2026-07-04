@@ -163,30 +163,173 @@ def get_simulated_ai_response(query: str) -> dict:
             ]
         }
 
+    if "facebook" in query_lower or "meta" in query_lower:
+        return {
+            "companyName": "Meta Platforms, Inc.",
+            "website": "https://meta.com",
+            "phone": "+1 (650) 543-4800",
+            "address": "1 Hacker Way, Menlo Park, CA 94025, USA",
+            "companySummary": "Meta Platforms, Inc. (formerly Facebook, Inc.) is a global social technology conglomerate that builds platforms helping people connect, find communities, and grow businesses. They are the pioneers of modern social media and are actively developing virtual reality and the metaverse.",
+            "productsServices": [
+                { "name": "Facebook & Messenger", "description": "Global social networking and instant messaging platforms used by billions daily." },
+                { "name": "Instagram", "description": "Popular visual content sharing app focusing on photos, vertical videos (Reels), and creators." },
+                { "name": "WhatsApp", "description": "Secure cross-platform voice and text messaging utility used widely for personal and business chats." },
+                { "name": "Meta Quest", "description": "Consumer and enterprise virtual and mixed reality headsets powered by the Horizon OS ecosystem." }
+            ],
+            "painPoints": [
+                { "title": "Heavy Ad-Revenue Concentration", "description": "Over 97% of Meta's total revenue depends on digital advertising, making its business model highly sensitive to advertiser demand cycles and changes in ad-tracking rules (such as Apple's App Tracking Transparency)." },
+                { "title": "Reality Labs Capital Burn", "description": "Building the metaverse and augmented-reality glasses requires billions in quarterly R&D spend, which often impacts operating margins and draws skepticism from institutional investors." },
+                { "title": "Global Regulatory and Antitrust Headwinds", "description": "Continuous regulatory pressure under Europe's DMA/GDPR and FTC merger investigations creates constant operational constraints and potential legal liabilities." }
+            ],
+            "competitors": [
+                { "name": "ByteDance (TikTok)", "website": "https://tiktok.com", "description": "Directly competes for user attention, video engagement, and digital advertising budgets globally." },
+                { "name": "Snap Inc. (Snapchat)", "website": "https://snap.com", "description": "Competes in augmented reality filters and direct visual messaging among younger demographics." },
+                { "name": "Alphabet (YouTube)", "website": "https://youtube.com", "description": "Fierce competitor in vertical video creators (Shorts) and video-ad spend allocation." }
+            ]
+        }
+
+    if "instagram" in query_lower or "intagram" in query_lower:
+        return {
+            "companyName": "Instagram",
+            "website": "https://instagram.com",
+            "phone": "+1 (650) 543-4800",
+            "address": "1 Hacker Way, Menlo Park, CA 94025, USA",
+            "companySummary": "Instagram is a premier photo- and video-sharing social network owned by Meta Platforms, Inc. It serves as a hub for visual expression, creator culture, brand marketing, and short-form video discovery.",
+            "productsServices": [
+                { "name": "Instagram Feed & Stories", "description": "Core posting layout and temporary 24-hour visual posts for interacting with followers." },
+                { "name": "Instagram Reels", "description": "Short-form vertical video discovery feed driven by algorithm-powered interest recommendations." },
+                { "name": "Direct Messaging & Broadcast Channels", "description": "Private text, video, and audio chat channels alongside one-to-many broadcast streams." },
+                { "name": "Instagram Shopping", "description": "In-app storefront tools enabling users to browse and buy products directly from creators and brands." }
+            ],
+            "painPoints": [
+                { "title": "Teen Retention and Mental Health Scrutiny", "description": "Instagram faces severe regulatory investigations and public relation challenges regarding its psychological impact on teenagers and younger users." },
+                { "title": "Intense Short-Form Video Competition", "description": "TikTok's powerful recommendation engine continues to pressure Instagram to evolve its Reels format to retain high creator and viewer engagement." },
+                { "title": "Content Moderation at Scale", "description": "Enforcing safety guidelines, filtering hate speech, and combating scams across billions of active profiles represents a continuous operational challenge." }
+            ],
+            "competitors": [
+                { "name": "TikTok", "website": "https://tiktok.com", "description": "Primary rival in the vertical short-form video and music-integrated content spaces." },
+                { "name": "Snapchat", "website": "https://snapchat.com", "description": "Direct messaging, stories, and visual communications competitor." },
+                { "name": "Pinterest", "website": "https://pinterest.com", "description": "Visual discovery engine competing for creative inspiration, shopping, and image curation." }
+            ]
+        }
+
+    if "google" in query_lower or "alphabet" in query_lower:
+        return {
+            "companyName": "Google LLC (Alphabet Inc.)",
+            "website": "https://google.com",
+            "phone": "+1 (650) 253-0000",
+            "address": "1600 Amphitheatre Parkway, Mountain View, CA 94043, USA",
+            "companySummary": "Google LLC is a global technology powerhouse specializing in search technology, online advertising, cloud computing, consumer electronics, and artificial intelligence, operating as the primary subsidiary of Alphabet Inc.",
+            "productsServices": [
+                { "name": "Google Search", "description": "The world's dominant search engine handling trillions of search queries annually." },
+                { "name": "YouTube", "description": "Leading global video hosting, content streaming, and video-on-demand platform." },
+                { "name": "Google Cloud Platform (GCP)", "description": "Enterprise-tier cloud hosting infrastructure, data analytics databases, and machine learning developer tools." },
+                { "name": "Google Workspace & Android", "description": "Collaboration software (Gmail, Docs) coupled with the world's most widely used mobile operating system." }
+            ],
+            "painPoints": [
+                { "title": "Generative AI Search Transition costs", "description": "Integrating generative AI answers directly into search results increases raw infrastructure computing costs while potentially cannibalizing core ad-click revenue." },
+                { "title": "Antitrust Litigation and Ad-Tech Regulation", "description": "Facing active lawsuits and regulatory investigations from the US Department of Justice and EU commissioners targeting search and ad-exchange monopolies." },
+                { "title": "Enterprise Cloud Market Share Hurdles", "description": "Google Cloud competes fiercely with AWS and Microsoft Azure, requiring heavy sales and capital investment to capture dominant enterprise market share." }
+            ],
+            "competitors": [
+                { "name": "Microsoft (Azure & Bing)", "website": "https://microsoft.com", "description": "Direct rival in search (incorporating OpenAI technology) and cloud enterprise services." },
+                { "name": "Amazon (AWS)", "website": "https://aws.amazon.com", "description": "Market leader in cloud hosting and key competitor in product-focused searches." },
+                { "name": "Apple", "website": "https://apple.com", "description": "Controls iOS, representing a critical gatekeeper for Google search distribution on mobile devices." }
+            ]
+        }
+
     clean_name = query.split(" ")[0]
     clean_name = "".join(c for c in clean_name if c.isalpha())
     name = clean_name.capitalize() or "ExampleCorp"
     domain = f"{clean_name.lower() or 'example'}.com"
 
+    # Choose a template based on the hash of the company name to keep it deterministic but varied!
+    templates = [
+        # Template 0: Enterprise Software / SaaS
+        {
+            "summary_suffix": "is a modern software-as-a-service (SaaS) provider specializing in digital transformation, cloud productivity, and automated enterprise workflows.",
+            "products": [
+                { "name": "Core Cloud Platform", "description": "Centralized dashboard for tracking project management and automation workflows." },
+                { "name": "Integration Hub", "description": "API middleware connecting local databases with external cloud services." },
+                { "name": "Predictive Analytics", "description": "Machine-learning tool providing data insights and forecasting dashboard." }
+            ],
+            "painPoints": [
+                { "title": "Legacy Infrastructure Migration", "description": "Enterprise clients run outdated software architectures, leading to integration bottlenecks during deployments." },
+                { "title": "Escalating Customer Acquisition Costs", "description": "Intense competition in the cloud space drives higher marketing spend to close high-value sales contracts." },
+                { "title": "Data Compliance Overhead", "description": "Handling client datasets demands strict adherence to evolving global regulations like GDPR and SOC 2." }
+            ],
+            "competitors": [
+                { "name": "Salesforce", "website": "https://salesforce.com", "description": "Global CRM leader competing in cloud application spaces." },
+                { "name": "HubSpot", "website": "https://hubspot.com", "description": "Customer platform focusing on marketing and CRM apps." }
+            ]
+        },
+        # Template 1: E-commerce / Retail
+        {
+            "summary_suffix": "is a fast-growing digital e-commerce and retail platform delivering direct-to-consumer services and global fulfillment logistics.",
+            "products": [
+                { "name": "Online Marketplace", "description": "Web and mobile storefront enabling users to browse and buy goods." },
+                { "name": "Global Fulfillment Network", "description": "Logistics pipeline managing packaging, shipping, and return tracking." },
+                { "name": "Merchant Analytics", "description": "Seller tools to monitor sales conversion, reviews, and inventory levels." }
+            ],
+            "painPoints": [
+                { "title": "Supply Chain and Fulfillment Friction", "description": "International shipping delays, port blockages, and carrier rate fluctuations impact delivery timelines." },
+                { "title": "High Shopping Cart Abandonment Rates", "description": "Checkout friction and unexpected delivery fees drive shoppers to exit before finalizing purchases." },
+                { "title": "Counterfeit and Quality Control", "description": "Vetting third-party merchants at scale is difficult, threatening brand trust if low-quality goods slip through." }
+            ],
+            "competitors": [
+                { "name": "Amazon", "website": "https://amazon.com", "description": "Dominant global online marketplace and e-commerce logistics platform." },
+                { "name": "Shopify", "website": "https://shopify.com", "description": "E-commerce infrastructure powering independent brand storefronts." }
+            ]
+        },
+        # Template 2: Fintech / Financial Services
+        {
+            "summary_suffix": "is a leading financial technology developer providing secure payment gateways, neo-banking APIs, and digital wealth management solutions.",
+            "products": [
+                { "name": "Payment Gateway API", "description": "Embeddable checkout solutions accepting digital wallets, cards, and bank transfers." },
+                { "name": "Corporate Ledger", "description": "Real-time ledger tracking multi-currency transactions and automated payouts." },
+                { "name": "Risk & Fraud Shield", "description": "AI-powered detection system flagging anomalous transaction patterns." }
+            ],
+            "painPoints": [
+                { "title": "Complex Licensing and Compliance", "description": "Operating across borders requires securing local banking and payment licenses, adding years of legal overhead." },
+                { "title": "Chargeback and Transaction Fraud", "description": "Advanced cybercrime and card-not-present fraud require constant adjustments to risk models to avoid heavy merchant write-offs." },
+                { "title": "Interoperability with Legacy Core Banking", "description": "Connecting modern APIs to legacy mainframes run by traditional banks is slow and highly prone to error." }
+            ],
+            "competitors": [
+                { "name": "Stripe", "website": "https://stripe.com", "description": "Market leader in financial infrastructure and payment processing APIs." },
+                { "name": "Adyen", "website": "https://adyen.com", "description": "End-to-end global merchant checkout and transaction processing platform." }
+            ]
+        },
+        # Template 3: Healthcare / Biotech
+        {
+            "summary_suffix": "is an innovative health technology provider specializing in digital therapeutics, telemedicine infrastructure, and patient care management software.",
+            "products": [
+                { "name": "Telehealth Portal", "description": "HIPAA-compliant video and chat platform connecting patients with certified medical clinicians." },
+                { "name": "Care Management Suite", "description": "Clinical dashboard for scheduling, prescribing medications, and tracking medical histories." },
+                { "name": "Health Data Exchange", "description": "Secure middleware facilitating interoperable transfer of electronic health records (EHR)." }
+            ],
+            "painPoints": [
+                { "title": "HIPAA and Data Privacy Stringency", "description": "Securing Protected Health Information (PHI) requires extensive encryption, strict access policies, and audit trails." },
+                { "title": "Provider and Clinician Burnout", "description": "Complex record-keeping interfaces add cognitive load, reducing patient face-time and driving clinician turnover." },
+                { "title": "Insurance Reimbursement Friction", "description": "Submitting claims to multiple commercial payors and government programs involves complex coding rules and high denial rates." }
+            ],
+            "competitors": [
+                { "name": "Veeva Systems", "website": "https://veeva.com", "description": "Provides cloud-based software solutions for the global life sciences industry." },
+                { "name": "Teladoc Health", "website": "https://teladoc.com", "description": "Major virtual healthcare and remote telemedicine competitor." }
+            ]
+        }
+    ]
+
+    # Select template based on hash of query name
+    template_idx = sum(ord(c) for c in query_lower) % len(templates)
+    t = templates[template_idx]
+
     return {
-        "companyName": f"{name} Ltd.",
+        "companyName": f"{name} Inc.",
         "website": f"https://{domain}",
         "phone": "+1 (555) 019-2834",
         "address": "100 Technology Dr, Silicon Valley, CA 94000, USA",
-        "companySummary": f"{name} is an active technology provider delivering advanced software, operational consulting, and automated workflows. They serve enterprise clients looking to improve efficiency and digitize legacy workflows.",
-        "productsServices": [
-            { "name": "Core Platform", "description": "Cloud suite offering data centralization, visualization, and workflow automation." },
-            { "name": "Enterprise API Connect", "description": "Integration gateways linking internal company databases with external partner portals." },
-            { "name": "Analytics Dashboard", "description": "Real-time performance tracking and operational reporting tool powered by historical trends." }
-        ],
-        "painPoints": [
-            { "title": "High Customer Acquisition Cost", "description": "In a crowded enterprise marketplace, finding and closing new clients takes extensive sales cycles and heavy marketing expenditure, squeezing profit margins." },
-            { "title": "Legacy System Integration Friction", "description": "Clients often run outdated mainframe or database software, causing integration bottlenecks and extending deployment timeframes for new services." },
-            { "title": "Data Security and Compliance Risks", "description": "Storing enterprise-grade records requires strict adherence to SOC 2, GDPR, and country-specific data privacy mandates, adding substantial operational overhead." }
-        ],
-        "competitors": [
-            { "name": "Salesforce", "website": "https://salesforce.com", "description": "Global CRM and enterprise customer relationship management behemoth." },
-            { "name": "HubSpot", "website": "https://hubspot.com", "description": "Provides customer platform solutions focusing on marketing, sales, and service hubs." },
-            { "name": "Zoho Corporation", "website": "https://zoho.com", "description": "Comprehensive suite of business apps catering to mid-market and SMB clients." }
-        ]
+        "companySummary": f"{name} {t['summary_suffix']}",
+        "productsServices": t["products"],
+        "painPoints": t["painPoints"],
+        "competitors": t["competitors"]
     }

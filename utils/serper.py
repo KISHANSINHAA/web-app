@@ -147,6 +147,49 @@ def get_simulated_serper_response(query: str) -> dict:
                 { "title": "Microsoft - Cloud, Computers, Apps & Gaming", "link": "https://microsoft.com", "snippet": "Explore Microsoft products and services for your home or business. Shop Surface, Microsoft 365, Xbox, Windows, Azure, and more." }
             ]
         }
+
+    if "facebook" in query_lower or "meta" in query_lower:
+        return {
+            "knowledgeGraph": {
+                "title": "Meta Platforms, Inc.",
+                "website": "https://meta.com",
+                "phone": "+1 (650) 543-4800",
+                "address": "1 Hacker Way, Menlo Park, CA 94025, USA",
+                "description": "Meta Platforms, Inc., doing business as Meta and formerly named Facebook, Inc., and TheFacebook, Inc., is an American multinational technology conglomerate based in Menlo Park, California."
+            },
+            "organic": [
+                { "title": "Meta: Introducing Meta Quest 3, Instagram, Facebook...", "link": "https://meta.com", "snippet": "Meta builds technologies that help people connect, find communities, and grow businesses. When Facebook launched in 2004, it changed the way people connect." },
+                { "title": "Facebook - Log In or Sign Up", "link": "https://facebook.com", "snippet": "Create an account or log into Facebook. Connect with friends, family and other people you know. Share photos and videos, send messages and get updates." }
+            ]
+        }
+
+    if "instagram" in query_lower or "intagram" in query_lower:
+        return {
+            "knowledgeGraph": {
+                "title": "Instagram",
+                "website": "https://instagram.com",
+                "phone": "+1 (650) 543-4800",
+                "address": "1 Hacker Way, Menlo Park, CA 94025, USA",
+                "description": "Instagram is a photo and video sharing social networking service owned by American company Meta Platforms."
+            },
+            "organic": [
+                { "title": "Instagram", "link": "https://instagram.com", "snippet": "Create an account or log in to Instagram - A simple, fun & creative way to capture, edit & share photos, videos & messages with friends & family." }
+            ]
+        }
+
+    if "google" in query_lower or "alphabet" in query_lower:
+        return {
+            "knowledgeGraph": {
+                "title": "Google LLC",
+                "website": "https://google.com",
+                "phone": "+1 (650) 253-0000",
+                "address": "1600 Amphitheatre Parkway, Mountain View, CA 94043, USA",
+                "description": "Google LLC is an American multinational technology company focusing on artificial intelligence, search engine technology, online advertising, cloud computing, computer software, quantum computing, e-commerce, and consumer electronics."
+            },
+            "organic": [
+                { "title": "Google", "link": "https://google.com", "snippet": "Search the world's information, including webpages, images, videos and more. Google has many special features to help you find exactly what you're looking for." }
+            ]
+        }
         
     clean_name = query.split(" ")[0]
     # filter non-alpha
