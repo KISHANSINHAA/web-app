@@ -28,6 +28,39 @@ st.markdown("""
             radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
     }
     
+    /* Style the sidebar to match the premium dark theme */
+    section[data-testid="stSidebar"] {
+        background-color: #0b0f19 !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+    
+    /* Ensure all text in sidebar is visible and clean */
+    section[data-testid="stSidebar"] h1, 
+    section[data-testid="stSidebar"] h2, 
+    section[data-testid="stSidebar"] h3, 
+    section[data-testid="stSidebar"] h4, 
+    section[data-testid="stSidebar"] h5, 
+    section[data-testid="stSidebar"] h6 {
+        color: #ffffff !important;
+    }
+    
+    section[data-testid="stSidebar"] p, 
+    section[data-testid="stSidebar"] span, 
+    section[data-testid="stSidebar"] label {
+        color: #9ca3af !important;
+    }
+    
+    /* Streamlit sidebar input elements text color */
+    section[data-testid="stSidebar"] div[data-baseweb="select"] *, 
+    section[data-testid="stSidebar"] input {
+        color: #ffffff !important;
+    }
+    
+    /* Sub-captions in sidebar */
+    section[data-testid="stSidebar"] .stCaption {
+        color: #6b7280 !important;
+    }
+    
     /* Ensure markdown and normal text elements are white/light-gray */
     .stApp p, .stApp li, .stApp span, .stApp label, div[data-testid="stMarkdownContainer"] p {
         color: #e5e7eb;
