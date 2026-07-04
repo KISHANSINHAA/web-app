@@ -47,22 +47,54 @@ st.markdown("""
     section[data-testid="stSidebar"] p, 
     section[data-testid="stSidebar"] span, 
     section[data-testid="stSidebar"] label {
-        color: #9ca3af !important;
+        color: #e5e7eb !important;
     }
     
-    /* Streamlit sidebar input elements text color */
-    section[data-testid="stSidebar"] div[data-baseweb="select"] *, 
-    section[data-testid="stSidebar"] input {
+    /* Dropdown/Selectbox styling in sidebar to make background dark and text readable */
+    section[data-testid="stSidebar"] div[data-baseweb="select"] > div {
+        background-color: #1f2937 !important;
         color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    section[data-testid="stSidebar"] div[data-baseweb="select"] div[data-testid="stSelectboxSelectedValue"] {
+        color: #ffffff !important;
+    }
+    
+    /* Text input fields styling in sidebar */
+    section[data-testid="stSidebar"] input {
+        background-color: #1f2937 !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
     
     /* Sub-captions in sidebar */
     section[data-testid="stSidebar"] .stCaption {
-        color: #6b7280 !important;
+        color: #9ca3af !important;
     }
     
-    /* Ensure markdown and normal text elements are white/light-gray */
-    .stApp p, .stApp li, .stApp span, .stApp label, div[data-testid="stMarkdownContainer"] p {
+    /* Style download button to be premium indigo with clean white text */
+    div[data-testid="stDownloadButton"] button {
+        background-color: #4f46e5 !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 8px !important;
+        padding: 10px 24px !important;
+        font-weight: 600 !important;
+        transition: all 0.2s ease !important;
+    }
+    div[data-testid="stDownloadButton"] button:hover {
+        background-color: #4338ca !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3) !important;
+    }
+    div[data-testid="stDownloadButton"] button p, 
+    div[data-testid="stDownloadButton"] button span {
+        color: #ffffff !important;
+    }
+    
+    /* Ensure markdown and normal text elements are white/light-gray (no global span) */
+    .stApp p, .stApp li, .stApp label, div[data-testid="stMarkdownContainer"] p {
         color: #e5e7eb;
     }
     
