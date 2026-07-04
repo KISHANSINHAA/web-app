@@ -1,6 +1,8 @@
 import streamlit as st
 import os
 import json
+import re
+from urllib.parse import urlparse
 from utils.serper import resolve_official_website, get_company_details, find_competitors_serp
 from utils.crawler import crawl_website
 from utils.openrouter import query_openrouter, OPENROUTER_MODELS
