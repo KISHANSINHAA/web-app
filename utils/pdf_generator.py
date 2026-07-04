@@ -1,11 +1,39 @@
 from fpdf import FPDF
 from datetime import datetime
 
+def clean_text(text: str) -> str:
+    if not isinstance(text, str):
+        return ""
+    # Map common unicode characters to their Latin-1 equivalents
+    replacements = {
+        "\u2022": "-", # bullet point
+        "•": "-",      # bullet point
+        "\u201c": '"', # left double quote
+        "\u201d": '"', # right double quote
+        "“": '"',
+        "”": '"',
+        "\u2018": "'", # left single quote
+        "\u2019": "'", # right single quote
+        "‘": "'",
+        "’": "'",
+        "\u2013": "-", # en dash
+        "\u2014": "-", # em dash
+        "–": "-",
+        "—": "-",
+        "\u2026": "...", # ellipsis
+        "…": "...",
+        "\xa0": " ",   # non-breaking space
+    }
+    for src, dest in replacements.items():
+        text = text.replace(src, dest)
+    # Encode to latin-1, replacing unsupported characters with '?'
+    return text.encode("latin-1", errors="replace").decode("latin-1")
+
 class ReportPDF(FPDF):
     def __init__(self, applicant_name=None, applicant_email=None):
         super().__init__(orientation="P", unit="mm", format="A4")
-        self.applicant_name = applicant_name
-        self.applicant_email = applicant_email
+        self.applicant_name = clean_text(applicant_name) if applicant_name else None
+        self.applicant_email = clean_text(applicant_email) if applicant_email else None
         self.set_margins(15, 15, 15)
         self.set_auto_page_break(auto=True, margin=20)
         
@@ -84,7 +112,7 @@ def generate_company_report_pdf(data: dict, applicant_name: str = None, applican
     pdf.cell(40, 7, "Company Name:")
     pdf.set_text_color(*text_color)
     pdf.set_font("Helvetica", "B", 10)
-    pdf.cell(0, 7, data.get("companyName", "Not Available"), ln=1)
+    pdf.cell(0, 7, clean_text(data.get("companyName", "Not Available")), ln=1)
     
     # Row: Website
     pdf.set_font("Helvetica", "", 10)
@@ -94,21 +122,21 @@ def generate_company_report_pdf(data: dict, applicant_name: str = None, applican
     pdf.set_font("Helvetica", "B", 10)
     # create hyperlink in PDF
     website_url = data.get("website", "Not Available")
-    pdf.cell(0, 7, website_url, ln=1, link=website_url if website_url.startswith("http") else "")
+    pdf.cell(0, 7, clean_text(website_url), ln=1, link=website_url if website_url.startswith("http") else "")
     
     # Row: Phone
     pdf.set_font("Helvetica", "", 10)
     pdf.set_text_color(*light_text_color)
     pdf.cell(40, 7, "Phone Number:")
     pdf.set_text_color(*text_color)
-    pdf.cell(0, 7, data.get("phone", "Not Available"), ln=1)
+    pdf.cell(0, 7, clean_text(data.get("phone", "Not Available")), ln=1)
     
     # Row: Address
     pdf.set_text_color(*light_text_color)
     pdf.cell(40, 7, "HQ Address:")
     pdf.set_text_color(*text_color)
     # Multicell address to handle overflow
-    pdf.multi_cell(0, 7, data.get("address", "Not Available"))
+    pdf.multi_cell(0, 7, clean_text(data.get("address", "Not Available")))
     pdf.ln(4)
     
     # Executive Summary Box
@@ -121,7 +149,7 @@ def generate_company_report_pdf(data: dict, applicant_name: str = None, applican
     pdf.set_font("Helvetica", "B", 9.5)
     pdf.cell(0, 8, "Executive Summary", fill=True, border="TLR", ln=1)
     pdf.set_font("Helvetica", "I", 9.5)
-    summary_text = data.get("companySummary", "No summary details generated.")
+    summary_text = clean_text(data.get("companySummary", "No summary details generated."))
     pdf.multi_cell(0, 6, summary_text, fill=True, border="BLR")
     
     pdf.ln(10)
@@ -138,14 +166,14 @@ def generate_company_report_pdf(data: dict, applicant_name: str = None, applican
             # Bullet point name
             pdf.set_text_color(*text_color)
             pdf.set_font("Helvetica", "B", 10)
-            pdf.cell(0, 6, f"• {prod.get('name')}", ln=1)
+            pdf.cell(0, 6, clean_text(f"- {prod.get('name', 'Not Available')}"), ln=1)
             
             # Description
             pdf.set_text_color(*light_text_color)
             pdf.set_font("Helvetica", "", 9.5)
             # Indented multicell
             pdf.set_x(20)
-            pdf.multi_cell(0, 5, prod.get("description", ""))
+            pdf.multi_cell(0, 5, clean_text(prod.get("description", "")))
             pdf.ln(3)
     else:
         pdf.set_text_color(*light_text_color)
@@ -167,20 +195,20 @@ def generate_company_report_pdf(data: dict, applicant_name: str = None, applican
             # Warning Bullet
             pdf.set_text_color(185, 28, 28) # Red-700
             pdf.set_font("Helvetica", "B", 10)
-            pdf.cell(0, 6, f"[!] {point.get('title')}", ln=1)
+            pdf.cell(0, 6, clean_text(f"[!] {point.get('title', 'Not Available')}"), ln=1)
             
             # Details
             pdf.set_text_color(*text_color)
             pdf.set_font("Helvetica", "", 9.5)
             pdf.set_x(20)
-            pdf.multi_cell(0, 5, point.get("description", ""))
+            pdf.multi_cell(0, 5, clean_text(point.get("description", "")))
             pdf.ln(3)
     else:
         pdf.set_text_color(*light_text_color)
         pdf.set_font("Helvetica", "I", 10)
         pdf.cell(0, 6, "No pain points details generated.", ln=1)
         pdf.ln(5)
-
+ 
     pdf.ln(5)
     
     # 4. Competitor Analysis
@@ -195,19 +223,19 @@ def generate_company_report_pdf(data: dict, applicant_name: str = None, applican
             # Competitor name & Website link
             pdf.set_text_color(*text_color)
             pdf.set_font("Helvetica", "B", 10)
-            pdf.cell(50, 6, comp.get("name", ""))
+            pdf.cell(50, 6, clean_text(comp.get("name", "")))
             
             comp_web = comp.get("website", "")
             pdf.set_text_color(*secondary_color)
             pdf.set_font("Helvetica", "", 9)
-            pdf.cell(0, 6, comp_web, ln=1, link=comp_web if comp_web.startswith("http") else "")
+            pdf.cell(0, 6, clean_text(comp_web), ln=1, link=comp_web if comp_web.startswith("http") else "")
             
             # Description
             if comp.get("description"):
                 pdf.set_text_color(*light_text_color)
                 pdf.set_font("Helvetica", "I", 9.5)
                 pdf.set_x(20)
-                pdf.multi_cell(0, 5, comp.get("description", ""))
+                pdf.multi_cell(0, 5, clean_text(comp.get("description", "")))
                 pdf.ln(2)
             pdf.ln(2)
     else:
@@ -215,6 +243,6 @@ def generate_company_report_pdf(data: dict, applicant_name: str = None, applican
         pdf.set_font("Helvetica", "I", 10)
         pdf.cell(0, 6, "No competitor details found.", ln=1)
         pdf.ln(5)
-
+ 
     # Returns the binary buffer bytes of the PDF output
     return pdf.output()

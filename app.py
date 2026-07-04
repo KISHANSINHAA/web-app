@@ -28,11 +28,27 @@ st.markdown("""
             radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
     }
     
+    /* Ensure markdown and normal text elements are white/light-gray */
+    .stApp p, .stApp li, .stApp span, .stApp label, div[data-testid="stMarkdownContainer"] p {
+        color: #e5e7eb;
+    }
+    
+    /* Ensure text within st.status and standard details elements is readable */
+    div[data-testid="stStatusWidget"] *, details * {
+        color: #f3f4f6 !important;
+    }
+    div[data-testid="stStatusWidget"], details {
+        background-color: rgba(17, 24, 39, 0.8) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    
     /* Font custom settings */
     h1, h2, h3, h4, h5, h6 {
         font-family: 'Outfit', sans-serif !important;
         font-weight: 700 !important;
+        color: #ffffff !important;
     }
+
     
     /* Glassmorphic boxes */
     .report-box {
